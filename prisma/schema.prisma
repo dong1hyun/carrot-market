@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String @unique
+  email String? @unique
+  password String?
+  phone String? @unique
+  github_id String? @unique
+  avatar String?
+  create_at DateTime @default(now())
+  updated_at DateTime @updatedAt 
+  SMSToken SMSToken[]
+}
+
+model SMSToken {
+  id Int @id @default(autoincrement())
+  token String @unique
+  create_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id]) // 실제로 DB에 저장되지는 않고 user와의 관계를 primsa에게 설명해주는 코드
+  userId Int
+}
