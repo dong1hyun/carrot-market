@@ -5,9 +5,32 @@ import {
     PASSWORD_REGEX,
     PASSWORD_REGEX_ERROR,
 } from "@/lib/constants";
-import { z } from "zod"
+import db from "@/lib/db";
+import { boolean, z } from "zod"
 
 const checkPasswords = ({ password, confirm_password }: { password: string, confirm_password: string }) => password === confirm_password;
+const checkUsername = async (username: string) => {
+    const user = await db.user.findUnique({
+        where: {
+            username
+        },
+        select: {
+            id: true
+        }
+    });
+    return !Boolean(user);
+}
+const checkEmail = async (email: string) => {
+    const user = await db.user.findUnique({
+        where: {
+            email
+        },
+        select: {
+            id: true
+        }
+    })
+    return !Boolean(user)
+}
 const formSchema = z
     .object({
         username: z
@@ -17,12 +40,17 @@ const formSchema = z
             })
             .trim()
             .toLowerCase()
-            .transform((username) => `🔥 ${username}`)
+            // .transform((username) => `🔥 ${username}`)
             .refine(
                 (username) => !username.includes("potato"),
                 "No potatoes allowed!"
+            )
+            .refine(
+                checkUsername,
+                "This username is already taken"
             ),
-        email: z.string().email().toLowerCase(),
+        email: z.string().email().toLowerCase()
+        .refine(checkEmail, "There is an account already registered with that email"),
         password: z
             .string()
             .min(PASSWORD_MIN_LENGTH)
@@ -35,19 +63,19 @@ const formSchema = z
         message: "Both passwords should be the same!",
         path: ["confirmPassword"]
     })
+
 export async function createAccount(prevState: any, formData: FormData) {
-    console.log(formData)
     const data = {
         username: formData.get("username"),
         email: formData.get("email"),
         password: formData.get("password"),
         confirm_password: formData.get("confirm_password"),
     };
-    const result = formSchema.safeParse(data);
+    const result = await formSchema.safeParseAsync(data);
     if (!result.success) {
         console.log(result.error.flatten())
         return result.error.flatten();
     } else {
-        console.log(result.data);
+
     }
 }

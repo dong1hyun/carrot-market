@@ -25,6 +25,8 @@ model SMSToken {
   token String @unique
   create_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  user User @relation(fields: [userId], references: [id]) // 실제로 DB에 저장되지는 않고 user와의 관계를 primsa에게 설명해주는 코드
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade) 
+  // 실제로 DB에 저장되지는 않고 user와의 관계를 primsa에게 설명해주는 코드
+  // Cascade는 사용자가 삭제됐을 때 사용자와 연결된 SMSToken들도 같이 지워진다는 것을 의미
   userId Int
 }
