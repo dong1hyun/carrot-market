@@ -54,10 +54,12 @@ export async function logIn(prevState: any, formData: FormData) {
       }
     })
 
-    const ok = await bcrypt.compare(result.data.password, user!.password ?? "test")
+    const ok = await bcrypt.compare(result.data.password, user!.password ?? "")
+    console.log(ok)
     if(ok) {
       const session = await getSession();
       session.id = user?.id;
+      await session.save();
       redirect("/profile");
     } else {
       return {
