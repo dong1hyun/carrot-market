@@ -55,7 +55,6 @@ export async function logIn(prevState: any, formData: FormData) {
     })
 
     const ok = await bcrypt.compare(result.data.password, user!.password ?? "")
-    console.log(ok)
     if(ok) {
       const session = await getSession();
       session.id = user?.id;
