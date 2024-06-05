@@ -16,14 +16,14 @@ const publicOnlyUrls: Routes = {
 export async function middleware(request: NextRequest) {
     const session = await getSession();
     const exists = publicOnlyUrls[request.nextUrl.pathname]
-    if(!session.id) {
-        if(!exists) {
-            console.log("dd")
+    console.log(request.nextUrl.pathname)
+    if(!session.id) { // 로그아웃 상태
+        if(!exists) { // private 페이지에 접속하면
             return NextResponse.redirect(new URL("/", request.url));
         }
-    } else {
-        if(exists) {
-            return NextResponse.redirect(new URL("/products", request.url));
+    } else { // 로그인 상태 
+        if(exists) { // public 페이지에 접속하면
+            return NextResponse.redirect(new URL("/home", request.url));
         }
     }
  }
