@@ -5,9 +5,9 @@ const db = new PrismaClient();
 async function test() {
     const token = await db.product.create({
         data: {
-            title: "김밥",
-            price: 5000,
-            photo: "/kimbab.jpg",
+            title: "고구마",
+            price: 2000,
+            photo: "/goguma.jpg",
             description: "맛있는 고구마!!!",
             user: {
                 connect: {

@@ -14,17 +14,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children, // 현재 URL과 일치하는 페이지
-  //@ts-ignore
-  potato
 }: Readonly<{
   children: React.ReactNode, potato: React.ReactNode
 }>) {
-  console.log(potato);
   return (
     <html lang="en">
       <body className={`${inter.className} 
       bg-gray-800 text-white max-w-screen-sm m-auto`}>
-        {potato}
         {children}
       </body>
     </html>

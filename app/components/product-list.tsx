@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { InitialProducts } from "../(tabs)/home/page";
-import ListProduct from "./list-product";
+import ListProduct from "./productIcon";
 import { getMoreProducts } from "../(tabs)/home/actions";
 
 interface ProductList {
@@ -32,7 +32,6 @@ export default function ProductList({ initialProduct }: ProductList) {
                     }
                     setIsLoading(false);
                 }
-                // console.log(entries[0].isIntersecting);
             },
             {
                 threshold: 1.0,
@@ -48,11 +47,20 @@ export default function ProductList({ initialProduct }: ProductList) {
     }, [page]);
     return (
         <div className="p-5 flex flex-col gap-5">
-            {products.map(product => <ListProduct key={product.id}  {...product} />)}
-            {!isLastPage ? <span ref={trigger} style={{ marginTop: `${page + 1 * 80}vh` }}
-                className="mb-96 text-sm font-semibold 
-            bg-orange-500 w-fit mx-auto px-3 py-2 rounded-md 
-            hover:opacity-90 active:scale-95">{isLoading ? "로딩중" : "Load more"}</span> : null}
+            {products.map((product) => (
+                <ListProduct key={product.id} {...product} />
+            ))}
+            {!isLastPage ? (
+                <span
+                    ref={trigger}
+                    style={{
+                        marginTop: `${page + 1 * 90}vh`,
+                    }}
+                    className="mb-96 text-sm font-semibold bg-orange-500 w-fit mx-auto px-3 py-2 rounded-md hover:opacity-90 active:scale-95"
+                >
+                    {isLoading ? "로딩 중" : "Load more"}
+                </span>
+            ) : null}
         </div>
-    )
+    );
 }

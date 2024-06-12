@@ -12,7 +12,7 @@ export default function Button({ text }: ButtonProps) {
          h-10 disabled:bg-neutral-400 
          disabled:text-neutral-300 disabled:cursor-not-allowed
          ">
-            {pending? "Loading..." : text}
-            </button>
+            {pending ? "Loading..." : text}
+        </button>
     )
 }

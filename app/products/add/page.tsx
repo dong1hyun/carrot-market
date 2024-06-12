@@ -2,7 +2,7 @@
 
 import { PhotoIcon } from "@heroicons/react/16/solid";
 import  Input  from "@/app/components/input";
-import Button from "@/app/components/button";
+import Button from "@/app/components/postButton";
 import { useState } from "react";
 import { uploadProduct } from "./actions";
 import { useFormState } from "react-dom";
