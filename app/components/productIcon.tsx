@@ -10,7 +10,7 @@ interface ListProductProps {
     id: number
 }
 
-export default function ListProduct({ title, price, created_at, photo, id }: ListProductProps) {
+export default function Product({ title, price, created_at, photo, id }: ListProductProps) {
     return <Link href={`/products/${id}`} className="flex gap-5">
         <div className="relative size-28 rounded-md overflow-hidden">
             <Image src={photo} alt={title}

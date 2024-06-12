@@ -1,33 +1,48 @@
 import Button from "@/app/components/xButton";
-import { PhotoIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import db from "@/lib/db";
+import { PhotoIcon, UserIcon } from "@heroicons/react/16/solid";
+import Image from "next/image";
+import { notFound } from "next/navigation";
 
-export default function Modal({ params }: { params: { id: string } }) {
+export default async function Modal({ params }: { params: { id: number } }) {
+    const product = await db.product.findUnique({
+        where: { id: +params.id },
+        include: {
+            user: {
+                select: {
+                    username: true,
+                    avatar: true
+                }
+            }
+        }
+    });
+    if (product === null) notFound();
     return (
         <div className="absolute items-center w-full h-full z-50 flex 
         justify-center bg-black left-0 top-0 bg-opacity-60">
             <Button />
             <div className="max-w-screen-sm h-1/2 flex justify-center w-full">
-                <div className="aspect-square bg-neutral-700 
-                text-neutral-200 rounded-md
+                <div className="relative aspect-square bg-neutral-700 
+                text-neutral-200 rounded-xl
                 flex justify-center items-center">
-                    <PhotoIcon className="h-28" />
+                    <Image className="rounded-xl" fill src={`${product?.photo}`} alt={product!.title} />
                 </div>
+                <div className="relative z-10 p-5">
+                        <div className="p-5 flex items-center
+                                        gap-3 border-b border-neutral-600">
+                            <div className="size-10 rounded-full overflow-hidden">
+                                {product.user.avatar ? <Image src={product.user.avatar} alt={product.user.username} width={40} height={40} /> : <UserIcon />}
+                            </div>
+                            <div>
+                                <h3>{product.user.username}</h3>
+                            </div>
+                        </div>
+                        <div className="p-5 mb-60">
+                            <h1 className="text-2xl font-semibold">{product.title}</h1>
+                            <p>{product.description}</p>
+                        </div>
+                    </div>
             </div>
-        </div>)
+        </div>
+    )
 }
-
-// (
-//     <div className="absolute w-full h-full z-50 flex items-center justify-center bg-black bg-opacity-60 left-0 top-0">
-//       <button
-//         onClick={onCloseClick}
-//         className="absolute right-5 top-5 text-neutral-200"
-//       >
-//         <XMarkIcon className="size-10" />
-//       </button>
-//       <div className="max-w-screen-sm h-1/2  flex justify-center w-full">
-//         <div className="aspect-square  bg-neutral-700 text-neutral-200  rounded-md flex justify-center items-center">
-//           <PhotoIcon className="h-28" />
-//         </div>
-//       </div>
-//     </div>
-//   );

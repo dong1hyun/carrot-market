@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { InitialProducts } from "../(tabs)/home/page";
-import ListProduct from "./productIcon";
+import Product from "./productIcon";
 import { getMoreProducts } from "../(tabs)/home/actions";
 
 interface ProductList {
@@ -48,7 +48,7 @@ export default function ProductList({ initialProduct }: ProductList) {
     return (
         <div className="p-5 flex flex-col gap-5">
             {products.map((product) => (
-                <ListProduct key={product.id} {...product} />
+                <Product key={product.id} {...product} />
             ))}
             {!isLastPage ? (
                 <span
