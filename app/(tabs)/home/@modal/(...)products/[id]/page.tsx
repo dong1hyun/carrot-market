@@ -4,6 +4,10 @@ import { PhotoIcon, UserIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+async function foo() {
+    await new Promise(resolve => setTimeout(resolve, 3000));
+}
+
 export default async function Modal({ params }: { params: { id: number } }) {
     const product = await db.product.findUnique({
         where: { id: +params.id },
@@ -17,6 +21,7 @@ export default async function Modal({ params }: { params: { id: number } }) {
         }
     });
     if (product === null) notFound();
+    // await foo();
     return (
         <div className="absolute items-center w-full h-full z-50 flex 
         justify-center bg-black left-0 top-0 bg-opacity-60">
