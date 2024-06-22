@@ -17,6 +17,6 @@ export async function getMoreProducts(page: number) {
             created_at: "desc"
         },
     });
-    console.log(products)
+    // console.log(products)
     return products;
 }

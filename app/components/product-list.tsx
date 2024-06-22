@@ -6,11 +6,11 @@ import Product from "./productIcon";
 import { getMoreProducts } from "../(tabs)/home/actions";
 
 interface ProductList {
-    initialProduct: InitialProducts
+    initialProducts: InitialProducts
 }
 
-export default function ProductList({ initialProduct }: ProductList) {
-    const [products, setProducts] = useState(initialProduct)
+export default function ProductList({ initialProducts }: ProductList) {
+    const [products, setProducts] = useState(initialProducts);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [isLastPage, setIsLastPage] = useState(false);
@@ -50,7 +50,7 @@ export default function ProductList({ initialProduct }: ProductList) {
             {products.map((product) => (
                 <Product key={product.id} {...product} />
             ))}
-            {!isLastPage ? (
+            {/* {!isLastPage ? (
                 <span
                     ref={trigger}
                     style={{
@@ -60,7 +60,7 @@ export default function ProductList({ initialProduct }: ProductList) {
                 >
                     {isLoading ? "로딩 중" : "Load more"}
                 </span>
-            ) : null}
+            ) : null} */}
         </div>
     );
 }

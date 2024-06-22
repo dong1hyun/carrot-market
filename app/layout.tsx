@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children, // 현재 URL과 일치하는 페이지
 }: Readonly<{
-  children: React.ReactNode, potato: React.ReactNode
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
