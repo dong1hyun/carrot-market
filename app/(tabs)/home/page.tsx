@@ -31,26 +31,23 @@ export const metadata = {
 };
 
 // export const dynamic = "force-dynamic";
-export const revalidate = 5;
+// export const revalidate = 5;
 
 export default async function Products() {
   const initialProducts = await getInitialProducts();
-  const revalidate = async () => {
-    "use server";
-    revalidatePath("/home");
-  };
+  // const revalidate = async () => {
+  //   "use server";
+  //   revalidatePath("/home");
+  // };
   return (
     <div>
       <ProductList initialProducts={initialProducts} />
-      <form action={revalidate}>
-        <button>Revalidate</button>
-      </form>
-      <Link
+      <a
         href="/products/add"
         className="bg-orange-500 flex items-center justify-center rounded-full size-16 fixed bottom-24 right-8 text-white transition-colors hover:bg-orange-400"
       >
         <PlusIcon className="size-10" />
-      </Link>
+      </a>
     </div>
   );
 }

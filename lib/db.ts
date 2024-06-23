@@ -19,4 +19,4 @@ async function test() {
 }
 
 // test()
-export default db
+export default db;

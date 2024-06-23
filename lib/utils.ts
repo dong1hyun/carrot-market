@@ -1,3 +1,5 @@
+import getSession from "./session";
+
 export function formatToTimeAgo(date: string) {
     const dayInMs = 1000 * 60 * 60 * 24;
     const time = new Date(date).getTime();

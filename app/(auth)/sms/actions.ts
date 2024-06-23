@@ -4,7 +4,7 @@ import { z } from "zod"
 import validator from "validator"
 import { redirect } from "next/navigation";
 
-const phoneSchema = z.string().trim().refine(validator.isEmail, "Wrong phone format");
+const phoneSchema = z.string().trim().refine(validator.isMobilePhone, "Wrong phone format");
 const tokenSchema = z.coerce.number().min(100000).max(999999);
 
 interface ActionState {
@@ -14,6 +14,7 @@ interface ActionState {
 export default async function smsLogIn(prevState: ActionState, formData: FormData) {
     const phone = formData.get("phone");
     const token = formData.get("token");
+    console.log(prevState)
     if(!prevState.token) {
         const result = phoneSchema.safeParse(phone);
         if(!result.success) {

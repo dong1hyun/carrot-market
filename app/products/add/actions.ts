@@ -19,7 +19,6 @@ const productSchema = z.object({
     price: z.coerce.number({
         required_error: "price is required"
     }),
-    
 });
 
 export async function uploadProduct(prev: any, formData:FormData) {
