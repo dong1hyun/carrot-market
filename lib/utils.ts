@@ -1,3 +1,5 @@
+import { unstable_cache as nextCache } from "next/cache";
+import db from "./db";
 import getSession from "./session";
 
 export function formatToTimeAgo(date: string) {
@@ -14,3 +16,22 @@ export function formatToTimeAgo(date: string) {
 export function formatToWon(price:number) {
     return price.toLocaleString('ko-KR');
 }
+
+async function getProduct(id: number) {
+  const product = await db.product.findUnique({
+      where: {
+          id
+      },
+      include: {
+          user: {
+              select: {
+                  username: true,
+                  avatar: true
+              }
+          }
+      },
+  });
+  return product;
+}
+
+export const getCachedProduct = (id: number) => nextCache(() => getProduct(id), [`productDetail-${id}`]);

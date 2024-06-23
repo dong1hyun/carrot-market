@@ -1,35 +1,18 @@
 import { isProductOwner } from "@/lib/IsOwner";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import { formatToWon } from "@/lib/utils";
+import { formatToWon, getCachedProduct } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-
-async function getProduct(id: number) {
-    const product = await db.product.findUnique({
-        where: {
-            id
-        },
-        include: {
-            user: {
-                select: {
-                    username: true,
-                    avatar: true
-                }
-            }
-        },
-    });
-    return product;
-}
 
 export default async function ProductDetail({ params }: { params: { id: string } }) {
     const id = Number(params.id);
     if (isNaN(id)) {
         return notFound();
     }
-    const product = await getProduct(id);
+    const product = await getCachedProduct(id)();
     if (!product) {
         return notFound();
     }
@@ -43,9 +26,6 @@ export default async function ProductDetail({ params }: { params: { id: string }
         });
         redirect("/home");
     };
-    const updateProduct = async () => {
-
-    }
     return (
         <div>
             <div className="relative aspect-square">
@@ -70,10 +50,9 @@ export default async function ProductDetail({ params }: { params: { id: string }
                 <div className="flex gap-5">
                     <form action={deleteProduct}>{isOwner ? <button className="bg-red-500 px-5 py-2.5 rounded-md 
                 text-white font-semibold">Delete product</button> : null}</form>
-                    {isOwner ? <a href="/products/update" className="bg-blue-600 px-5 py-2.5 rounded-md 
+                    {isOwner ? <a href={`/products/${params.id}/update`} className="bg-blue-600 px-5 py-2.5 rounded-md 
                 text-white font-semibold cursor-pointer">Update product</a> : null}
                 </div>
-
                 <Link className="bg-orange-500 px-5
                 py-2.5 rounded-md text-white font-semibold" href={``}>채팅하기</Link>
             </div>
