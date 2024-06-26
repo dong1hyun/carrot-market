@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 
 export default async function UpdateProduct({ params }: { params: { id: number } }) {
     const id = Number(params.id);
-    console.log(id);
     if (isNaN(id)) {
         return notFound();
     }
@@ -12,5 +11,5 @@ export default async function UpdateProduct({ params }: { params: { id: number }
     if (!product) {
         return notFound();
     }
-    return <Update_Product title={product.title} price={product.price} description={product.description} photo={product.photo} />
+    return <Update_Product title={product.title} price={product.price} description={product.description} photo={product.photo} productId={id} />
 }

@@ -5,7 +5,6 @@ import fs from "fs/promises"
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
-import { getCachedProduct } from "@/lib/utils";
 
 const productSchema = z.object({
     photo: z.string({
@@ -23,16 +22,19 @@ const productSchema = z.object({
 });
 
 export async function update(prev: any, formData:FormData) {
+    const prevPhoto = formData.get("prevPhoto");
     const data = {
         photo: formData.get("photo"),
         title: formData.get("title"),
         price: formData.get("price"),
-        description: formData.get("description")
+        description: formData.get("description"),
+        productId: formData.get("productId")
     };
+    if(prevPhoto) data.photo = prevPhoto;
     if(data.photo instanceof File) {
         const photoData = await data.photo.arrayBuffer();
         await fs.appendFile(`./public/${data.photo.name}`, Buffer.from(photoData));
-        data.photo = `/${data.photo.name}`;
+        data.photo = `/${data.photo.name}`; 
     }
     const result = productSchema.safeParse(data);
     if(!result.success) {
@@ -40,7 +42,8 @@ export async function update(prev: any, formData:FormData) {
     } else {
         const session = await getSession();
         if(session.id){
-            const product = await db.product.create({
+            const product = await db.product.update({
+                where: {id: Number(data.productId)},
                 data: {
                     title: result.data.title,
                     description: result.data.description,
@@ -56,7 +59,7 @@ export async function update(prev: any, formData:FormData) {
                     id: true
                 }
             });
-            redirect(`/products/${product.id}`);
+            redirect("/home");
         }
     }
 }

@@ -11,28 +11,37 @@ interface productForm {
     title: string,
     description: string,
     price: number,
-    photo: string
+    photo: string,
+    productId: number
 }
 
-export default function UpdateProduct({ title, description, price, photo }: productForm) {
-    const [preview, setPreview] = useState(photo);
+export default function UpdateProduct({ title, description, price, photo, productId }: productForm) {
+    const [image, setImage] = useState(photo);
     const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { target: { files } } = event;
         if (!files) return;
         const file = files[0];
         const url = URL.createObjectURL(file);
-        setPreview(url);
+        setImage(url);
     }
     const [state, action] = useFormState(update, null);
+    const handleSubmit = async (event: React.FormEvent) => {
+        const productFormData = new FormData(event.target as HTMLFormElement);
+        productFormData.append("productId", productId + '');
+        if(image === photo) {
+            productFormData.append("prevPhoto", photo);
+        }
+        await action(productFormData);
+    }
     return <div>
-        <form action={action} className="p-5 flex flex-col gap-5">
+        <form onSubmit={handleSubmit} className="p-5 flex flex-col gap-5">
             <label htmlFor="photo" className="border-2 aspect-square
             flex flex-col items-center justify-center text-neutral-300
             rounded-md border-dashed cursor-pointer bg-center bg-cover" style={{
-                    backgroundImage: `url(${preview})`
+                    backgroundImage: `url(${image})`
                 }}>
             </label>
-            <input onChange={onImageChange} className="hidden" type="file" id="photo" name="photo" />
+            <input onChange={onImageChange} defaultValue={image} className="hidden" type="file" id="photo" name="photo" />
             <Input name="title" type="text" required placeholder="제목" defaultValue={title} errors={state?.fieldErrors.title} />
             <Input name="price" type="number" required placeholder="가격" defaultValue={price} errors={state?.fieldErrors.price} />
             <Input
