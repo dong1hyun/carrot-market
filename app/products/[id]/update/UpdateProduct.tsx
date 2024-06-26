@@ -22,15 +22,14 @@ export default function UpdateProduct({ title, description, price, photo, produc
         if (!files) return;
         const file = files[0];
         const url = URL.createObjectURL(file);
+        console.log(url)
         setImage(url);
     }
     const [state, action] = useFormState(update, null);
     const handleSubmit = async (event: React.FormEvent) => {
         const productFormData = new FormData(event.target as HTMLFormElement);
         productFormData.append("productId", productId + '');
-        if(image === photo) {
-            productFormData.append("prevPhoto", photo);
-        }
+        productFormData.append("prevPhoto", photo);
         await action(productFormData);
     }
     return <div>

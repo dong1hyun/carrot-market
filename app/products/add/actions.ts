@@ -56,6 +56,7 @@ export async function uploadProduct(prev: any, formData:FormData) {
                 }
             });
             redirect(`/products/${product.id}`);
+            // redirect(`/home`);
         }
     }
 }
