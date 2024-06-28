@@ -1,6 +1,8 @@
 import Button from "@/app/components/xButton";
 import db from "@/lib/db";
+import { getCachedProduct } from "@/lib/utils";
 import { PhotoIcon, UserIcon } from "@heroicons/react/16/solid";
+import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -9,17 +11,7 @@ async function foo() {
 }
 
 export default async function Modal({ params }: { params: { id: number } }) {
-    const product = await db.product.findUnique({
-        where: { id: +params.id },
-        include: {
-            user: {
-                select: {
-                    username: true,
-                    avatar: true
-                }
-            }
-        }
-    });
+    const product = await getCachedProduct(params.id)();
     if (product === null) notFound();
     // await foo();
     return (
@@ -45,6 +37,7 @@ export default async function Modal({ params }: { params: { id: number } }) {
                         <div className="p-5 mb-60">
                             <h1 className="text-2xl font-semibold">{product.title}</h1>
                             <p>{product.description}</p>
+                            <h1 className="mt-5 text-blue-600">{product.price}원</h1>
                         </div>
                     </div>
             </div>

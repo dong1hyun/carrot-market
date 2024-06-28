@@ -4,7 +4,7 @@ import { PhotoIcon } from "@heroicons/react/16/solid";
 import  Input  from "@/app/components/input";
 import Button from "@/app/components/postButton";
 import { useState } from "react";
-import { uploadProduct } from "./actions";
+import { addProduct } from "./actions";
 import { useFormState } from "react-dom";
 
 export default function AddProduct() {
@@ -16,7 +16,7 @@ export default function AddProduct() {
         const url = URL.createObjectURL(file);
         setPreview(url);
     }
-    const [state, action] = useFormState(uploadProduct, null);
+    const [state, action] = useFormState(addProduct, null);
     return <div>
         <form action={action} className="p-5 flex flex-col gap-5">
             <label htmlFor="photo" className="border-2 aspect-square

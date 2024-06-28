@@ -5,6 +5,7 @@ import fs from "fs/promises"
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
+import { revalidateTag } from "next/cache";
 
 const productSchema = z.object({
     photo: z.string({
@@ -37,7 +38,6 @@ export async function update(prev: any, formData:FormData) {
         data.photo = `/${data.photo.name}`; 
     }
     const result = productSchema.safeParse(data);
-    console.log(formData)
     if(!result.success) {
         return result.error.flatten();
     } else {
@@ -60,7 +60,8 @@ export async function update(prev: any, formData:FormData) {
                     id: true
                 }
             });
-            
+            revalidateTag(`productDetail-${Number(data.productId)}`);
+            revalidateTag(`home-products`);
         }
     }
 }

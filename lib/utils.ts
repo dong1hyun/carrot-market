@@ -26,7 +26,7 @@ async function getProduct(id: number) {
           user: {
               select: {
                   username: true,
-                  avatar: true
+                  avatar: true,
               }
           }
       },
@@ -34,4 +34,4 @@ async function getProduct(id: number) {
   return product;
 }
 
-export const getCachedProduct = (id: number) => nextCache(() => getProduct(id), [`productDetail-${id}`]);
+export const getCachedProduct = (id: number) => nextCache(() => getProduct(id), [`productDetail-${id}`], {tags: [`productDetail-${id}`]});

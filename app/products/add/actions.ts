@@ -5,6 +5,7 @@ import fs from "fs/promises"
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
+import { revalidateTag } from "next/cache";
 
 const productSchema = z.object({
     photo: z.string({
@@ -21,7 +22,7 @@ const productSchema = z.object({
     }),
 });
 
-export async function uploadProduct(prev: any, formData:FormData) {
+export async function addProduct(prev: any, formData:FormData) {
     const data = {
         photo: formData.get("photo"),
         title: formData.get("title"),
@@ -55,6 +56,7 @@ export async function uploadProduct(prev: any, formData:FormData) {
                     id: true
                 }
             });
+            revalidateTag("home-products");
             redirect(`/products/${product.id}`);
             // redirect(`/home`);
         }

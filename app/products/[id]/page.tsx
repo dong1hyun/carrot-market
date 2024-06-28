@@ -3,6 +3,7 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToWon, getCachedProduct } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/16/solid";
+import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -24,6 +25,7 @@ export default async function ProductDetail({ params }: { params: { id: string }
                 id
             }
         });
+        revalidateTag("home-products");
         redirect("/home");
     };
     return (
@@ -43,6 +45,7 @@ export default async function ProductDetail({ params }: { params: { id: string }
             <div className="p-5 mb-60">
                 <h1 className="text-2xl font-semibold">{product.title}</h1>
                 <p>{product.description}</p>
+                <h1 className="mt-5 text-blue-600">{product.price}원</h1>
             </div>
             <div className="fixed w-full bottom-0 left-0
             p-5 pb-10 bg-neutral-800 flex justify-between items-center">
