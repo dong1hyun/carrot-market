@@ -1,3 +1,4 @@
+import LikeButton from "@/app/components/like-button";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
@@ -67,36 +68,6 @@ export default async function PostDetail({ params }: { params: { id: string } })
         const cacheLike = nextCache(getLikeStatus, ["product-like-status"],{ tags: [`like-status-${postId}`]});
         return cacheLike(postId, session.id!);
     }
-    const likePost = async () => {
-        "use server"
-        try {
-            const session = await getSession();
-            if (!session.id) notFound();
-            await db.like.create({
-                data: {
-                    postId,
-                    userId: session.id
-                }
-            });
-            revalidateTag(`like-status-${postId}`);
-        } catch (e) { }
-    }
-    const dislikePost = async () => {
-        "use server"
-        try {
-            const session = await getSession();
-            if (!session.id) notFound();
-            await db.like.delete({
-                where: {
-                    id: {
-                        postId,
-                        userId: session.id
-                    }
-                }
-            });
-            revalidateTag(`like-status-${postId}`);
-        } catch (e) { }
-    }
     const {likeCount, isLiked} = await getCachedLikeStatus();
     return (
         <div className="p-5 text-white">
@@ -122,17 +93,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
                     <EyeIcon className="size-5" />
                     <span>조회 {post.views}</span>
                 </div>
-                <form action={isLiked ? dislikePost : likePost}>
-                    <button
-                        className={`flex items-center gap-2 text-neutral-400 
-                            text-sm border border-neutral-400 rounded-full 
-                            p-2 hover:bg-neutral-800 transition-colors
-                            ${isLiked ? "bg-orange-500 text-white border-orange-500" : ""}`}
-                    >
-                        <HandThumbUpIcon className="size-5" />
-                        <span>공감하기 ({likeCount})</span>
-                    </button>
-                </form>
+                <LikeButton isLiked={isLiked} likeCount={likeCount} postId={postId} />
             </div>
         </div>
     );
