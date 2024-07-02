@@ -2,10 +2,11 @@ import LikeButton from "@/app/components/like-button";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
-import { EyeIcon, HandThumbUpIcon } from "@heroicons/react/16/solid";
-import { revalidatePath, unstable_cache as nextCache, revalidateTag } from "next/cache";
+import { EyeIcon } from "@heroicons/react/16/solid";
+import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import Comment from "@/app/components/comment";
 
 async function getPost(id: number) {
     try {
@@ -95,6 +96,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
                 </div>
                 <LikeButton isLiked={isLiked} likeCount={likeCount} postId={postId} />
             </div>
+            <Comment postId={postId} />
         </div>
     );
 }
