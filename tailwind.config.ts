@@ -8,6 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        //layout.tsx에서 만든 gothic, rubik text 변수를 가리킴
+        rubick: "var(--rubick-text)",
+        gothic: "var(--gothic)"
+      },
       margin: {
         myMargin: "200px"
       }
