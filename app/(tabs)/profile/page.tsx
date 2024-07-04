@@ -10,6 +10,7 @@ export default async function Profile() {
     const session = await getSession();
     if(!session.id) return notFound();
     const user = await getUser(session.id);
+    console.log(user);
     const getCachedProduct = nextCache(getMyProduct, ["myProduct"]);
     const myProducts = await getCachedProduct(session.id);
     return <div className="*:border-b *:border-b-gray-400">
@@ -23,6 +24,6 @@ export default async function Profile() {
             <h1 className="font-gothic text-5xl">내 상품 목록</h1>
             <ProductList initialProducts={myProducts} />
         </div>
-        <UpdateProfile />
+        <UpdateProfile username={user.username} phone={user.phone} avatar={user.avatar} />
     </div>
 }

@@ -22,7 +22,6 @@ export default function UpdateProduct({ title, description, price, photo, produc
         if (!files) return;
         const file = files[0];
         const url = URL.createObjectURL(file);
-        console.log(url)
         setImage(url);
     }
     const [state, action] = useFormState(update, null);
