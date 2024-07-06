@@ -1,7 +1,7 @@
 "use client"
 
 import { PhotoIcon } from "@heroicons/react/16/solid";
-import Input from "@/app/components/input";
+import {Input} from "@/app/components/input";
 import Button from "@/app/components/postButton";
 import { useState } from "react";
 import { update } from "./actions";

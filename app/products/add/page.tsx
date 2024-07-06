@@ -1,7 +1,7 @@
 "use client"
 
 import { PhotoIcon } from "@heroicons/react/16/solid";
-import  Input  from "@/app/components/input";
+import  {Input}  from "@/app/components/input";
 import Button from "@/app/components/postButton";
 import { useState } from "react";
 import { addProduct } from "./actions";
@@ -29,7 +29,7 @@ export default function AddProduct() {
                     <div className="text-neutral-400 text-sm">사진을 추가해주세요.{state?.fieldErrors.photo}</div>
                 </>}
             </label>
-            <input onChange={onImageChange} className="hidden" type="file" id="photo" name="photo" />
+            <input onChange={onImageChange} className="hidden" type="file" id="photo" name="photo" required />
             <Input name="title" type="text" required placeholder="제목" errors={state?.fieldErrors.title} />
             <Input name="price" type="number" required placeholder="가격" errors={state?.fieldErrors.price} />
             <Input

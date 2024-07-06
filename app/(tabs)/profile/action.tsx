@@ -6,6 +6,8 @@ import getSession from "@/lib/session";
 import { notFound, redirect } from "next/navigation";
 import validator from "validator";
 import { z } from "zod";
+import bcrypt from 'bcrypt';
+
 
 export async function getUser(userId: number) {
     // User가 profile 페이지로 이동할 때 browser로부터 cookie를 받음
@@ -18,6 +20,7 @@ export async function getUser(userId: number) {
             },
             select: {
                 username: true,
+                password: true,
                 phone: true,
                 avatar: true,
             }
@@ -45,7 +48,16 @@ const userInfoSchema = z.object({
             required_error: "Where is my username???",
         })
         .trim()
-        .toLowerCase(),
+        .toLowerCase()
+        // .transform((username) => `🔥 ${username}`)
+        .refine(
+            (username) => !username.includes("potato"),
+            "No potatoes allowed!"
+        ),
+    password: z
+        .string({
+            required_error: "Password is required"
+        }),
     phone: z
         .string()
         .trim()
@@ -54,22 +66,29 @@ const userInfoSchema = z.object({
 });
 
 export async function updateInfo(prev: any, formData: FormData) {
-    console.log(formData);
     const session = await getSession();
+    const user = await getUser(session.id!);
     const data = {
         username: formData.get("username"),
+        password: formData.get("password"),
         phone: formData.get("phone"),
         avatar: formData.get("avatar")
     };
-
-    const password = formData.get("password");
-    
     const result = await userInfoSchema.safeParse(data);
     if (!result.success) {
         return result.error.flatten();
     }
     else {
-        db.user.update({
+        const ok = await bcrypt.compare(result.data.password, user!.password ?? "")
+        if (!ok) return {
+            fieldErrors: {
+                username: [""],
+                password: ["Wrong password"],
+                phone: [""],
+                avatar: [""]
+            }
+        }
+        const update_result = await db.user.update({
             where: {
                 id: session.id
             },
@@ -79,9 +98,8 @@ export async function updateInfo(prev: any, formData: FormData) {
                 avatar: result.data.avatar
             }
         });
+        redirect("/profile")
     }
-
-
 }
 
 export const logOut = async () => {

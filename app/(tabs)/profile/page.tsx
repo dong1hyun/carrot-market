@@ -1,14 +1,13 @@
 import ProductList from "@/app/components/product-list";
-import db from "@/lib/db"
 import getSession from "@/lib/session";
 import { unstable_cache as nextCache } from "next/cache";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { getMyProduct, getUser, logOut } from "./action";
 import UpdateProfile from "@/app/components/updateProfile";
 
 export default async function Profile() {
     const session = await getSession();
-    if(!session.id) return notFound();
+    if (!session.id) return notFound();
     const user = await getUser(session.id);
     console.log(user);
     const getCachedProduct = nextCache(getMyProduct, ["myProduct"]);
