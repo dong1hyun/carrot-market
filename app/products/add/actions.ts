@@ -35,7 +35,6 @@ export async function addProduct(prev: any, formData:FormData) {
         data.photo = `/${data.photo.name}`;
     }
     const result = productSchema.safeParse(data);
-    console.log(result.success)
     if(!result.success) {
         return result.error.flatten();
     } else {
@@ -58,8 +57,8 @@ export async function addProduct(prev: any, formData:FormData) {
                 }
             });
             revalidateTag("home-products");
-            redirect(`/products/${product.id}`);
-            // redirect(`/home`);
+            // redirect(`/products/${product.id}`);
+            redirect(`/home`);
         }
     }
 }

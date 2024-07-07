@@ -23,7 +23,6 @@ const productSchema = z.object({
 });
 
 export async function update(prev: any, formData:FormData) {
-    const prevPhoto = formData.get("prevPhoto");
     const data = {
         photo: formData.get("photo"),
         title: formData.get("title"),
@@ -31,7 +30,7 @@ export async function update(prev: any, formData:FormData) {
         description: formData.get("description"),
         productId: formData.get("productId")
     };
-    if(prevPhoto) data.photo = prevPhoto;
+    console.log(data);
     if(data.photo instanceof File) {
         const photoData = await data.photo.arrayBuffer();
         await fs.appendFile(`./public/${data.photo.name}`, Buffer.from(photoData));
@@ -63,6 +62,7 @@ export async function update(prev: any, formData:FormData) {
             revalidateTag(`productDetail-${Number(data.productId)}`);
             revalidateTag(`home-products`);
         }
+        redirect(`/products/${data.productId}`)
     }
 }
 

@@ -1,6 +1,6 @@
 import Button from "@/app/components/xButton";
 import db from "@/lib/db";
-import { getCachedProduct } from "@/lib/utils";
+import { getCachedProduct, getProduct } from "@/lib/utils";
 import { PhotoIcon, UserIcon } from "@heroicons/react/16/solid";
 import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
@@ -11,7 +11,7 @@ async function foo() {
 }
 
 export default async function Modal({ params }: { params: { id: number } }) {
-    const product = await getCachedProduct(params.id)();
+    const product = await getProduct(+params.id);
     if (product === null) notFound();
     // await foo();
     return (

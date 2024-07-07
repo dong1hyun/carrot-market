@@ -9,7 +9,6 @@ export default async function Profile() {
     const session = await getSession();
     if (!session.id) return notFound();
     const user = await getUser(session.id);
-    console.log(user);
     const getCachedProduct = nextCache(getMyProduct, ["myProduct"]);
     const myProducts = await getCachedProduct(session.id);
     return <div className="*:border-b *:border-b-gray-400">

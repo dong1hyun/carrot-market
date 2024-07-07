@@ -1,7 +1,7 @@
 import { isProductOwner } from "@/lib/IsOwner";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import { formatToWon, getCachedProduct } from "@/lib/utils";
+import { formatToWon, getCachedProduct, getProduct } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/16/solid";
 import { revalidateTag } from "next/cache";
 import Image from "next/image";
@@ -13,7 +13,7 @@ export default async function ProductDetail({ params }: { params: { id: string }
     if (isNaN(id)) {
         return notFound();
     }
-    const product = await getCachedProduct(id)();
+    const product = await getProduct(id);
     if (!product) {
         return notFound();
     }

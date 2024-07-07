@@ -98,7 +98,7 @@ export async function updateInfo(prev: any, formData: FormData) {
                 avatar: result.data.avatar
             }
         });
-        redirect("/profile")
+        redirect("/profile");
     }
 }
 

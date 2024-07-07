@@ -17,7 +17,7 @@ export function formatToWon(price:number) {
     return price.toLocaleString('ko-KR');
 }
 
-async function getProduct(id: number) {
+export async function getProduct(id: number) {
   const product = await db.product.findUnique({
       where: {
           id

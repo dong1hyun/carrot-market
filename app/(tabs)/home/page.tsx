@@ -33,6 +33,7 @@ export const metadata = {
 // export const revalidate = 5;
 
 export default async function Products() {
+  // revalidatePath("/home");
   const initialProducts = await getCachedProducts();
   // const revalidate = async () => {
   //   "use server";

@@ -1,5 +1,5 @@
 import Update_Product from "./UpdateProduct";
-import { getCachedProduct } from "@/lib/utils";
+import { getCachedProduct, getProduct } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
 export default async function UpdateProduct({ params }: { params: { id: number } }) {
@@ -7,7 +7,7 @@ export default async function UpdateProduct({ params }: { params: { id: number }
     if (isNaN(id)) {
         return notFound();
     }
-    const product = await getCachedProduct(id)();
+    const product = await getProduct(id);
     if (!product) {
         return notFound();
     }
