@@ -20,6 +20,7 @@ export const likePost = async (postId: number) => {
             }
         });
         revalidateTag(`like-status-${postId}`);
+        revalidateTag("allPost");
     } catch (e) { }
 }
 
@@ -38,6 +39,7 @@ export const dislikePost = async (postId: number) => {
             }
         });
         revalidateTag(`like-status-${postId}`);
+        revalidateTag("allPost");
     } catch (e) { }
 }
 
@@ -66,11 +68,17 @@ export const addComment = async (text:string, postId:number) => {
         }
     });
     revalidateTag(`post-comment-${postId}`);
+    revalidateTag("allPost");
     return comment;
 }
 
-export const getComment = async () => {
+export const getComment = async (postId: number) => {
     const comments = await db.comment.findMany({
+        where: {
+            post: {
+                id: postId
+            }
+        },
         include: {
             user: {
                 select: {

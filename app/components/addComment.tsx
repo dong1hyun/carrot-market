@@ -22,7 +22,7 @@ interface commentProps {
 }
 
 const commentSchema = z.string();
-export default function AddComment({ comments, postId, userId }: { comments: commentProps[], postId: number, userId: number }) {
+export default function AddComment({ comments, postId, userId, username, avatar }: { comments: commentProps[], postId: number, userId: number, username: string, avatar: string }) {
     const [comments_state, reducer] = useOptimistic(comments, (prev, payload: commentProps) => ([payload, ...prev]));
     const handleSubmit = (e: any) => {
         e.preventDefault();
@@ -36,8 +36,8 @@ export default function AddComment({ comments, postId, userId }: { comments: com
             userId: userId,
             postId: postId,
             user: {
-                username: "lim",
-                avatar: ""
+                username,
+                avatar
             }
         })
         addComment(result.data!, postId);

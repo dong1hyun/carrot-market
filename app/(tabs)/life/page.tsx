@@ -1,6 +1,7 @@
 import db from "@/lib/db";
 import { formatToTimeAgo } from "@/lib/utils";
 import { ChatBubbleBottomCenterIcon, HandThumbUpIcon } from "@heroicons/react/16/solid";
+import { revalidatePath, unstable_cache as nextCache } from "next/cache";
 import Link from "next/link";
 
 async function getPosts() {
@@ -28,7 +29,8 @@ export const metadata = {
 }
 
 export default async function Life() {
-    const posts = await getPosts();
+    const getCachedPosts = nextCache(getPosts, ["allPost"], { tags: ["allPost"] });
+    const posts = await getCachedPosts();
     return (
         <div className="p-5 flex flex-col">
             {posts.map((post) => (

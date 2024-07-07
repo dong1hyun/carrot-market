@@ -6,6 +6,7 @@ import { useState } from "react";
 import { update } from "./actions";
 import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
+import { notFound } from "next/navigation";
 
 interface productForm {
     title: string,

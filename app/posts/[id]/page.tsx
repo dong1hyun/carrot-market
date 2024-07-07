@@ -3,7 +3,7 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
 import { EyeIcon } from "@heroicons/react/16/solid";
-import { unstable_cache as nextCache } from "next/cache";
+import { unstable_cache as nextCache, revalidatePath } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Comment from "@/app/components/comment";
@@ -37,9 +37,8 @@ async function getPost(id: number) {
     }
 }
 
-const getCachedPost = nextCache(getPost, ["post-detail"], { tags: ["post-detail"], revalidate: 60 })
-
 export default async function PostDetail({ params }: { params: { id: string } }) {
+    const getCachedPost = nextCache(getPost, [`post-detail-${params.id}`], { tags: [`post-detail-${params.id}`], revalidate: 60 });
     const postId = Number(params.id);
     if (isNaN(postId)) {
         return notFound();
@@ -66,7 +65,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
     }
     const getCachedLikeStatus = async () => {
         const session = await getSession();
-        const cacheLike = nextCache(getLikeStatus, ["product-like-status"],{ tags: [`like-status-${postId}`]});
+        const cacheLike = nextCache(getLikeStatus, [`like-status-${postId}`],{ tags: [`like-status-${postId}`]});
         return cacheLike(postId, session.id!);
     }
     const {likeCount, isLiked} = await getCachedLikeStatus();
