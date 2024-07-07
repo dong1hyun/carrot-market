@@ -1,8 +1,6 @@
 import Button from "@/app/components/xButton";
-import db from "@/lib/db";
-import { getCachedProduct, getProduct } from "@/lib/utils";
-import { PhotoIcon, UserIcon } from "@heroicons/react/16/solid";
-import { unstable_cache as nextCache } from "next/cache";
+import { getProduct } from "@/lib/utils";
+import { UserIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
