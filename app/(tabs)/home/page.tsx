@@ -39,10 +39,8 @@ export default async function Products() {
   //   "use server";
   //   revalidatePath("/home");
   // };
-  revalidatePath("/home");
   return (
     <div>
-      test
       <ProductList initialProducts={initialProducts} />
       <a
         href="/products/add"
