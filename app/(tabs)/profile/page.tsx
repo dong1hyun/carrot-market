@@ -10,7 +10,7 @@ export default async function Profile() {
     if (!session.id) return notFound();
     const user = await getUser(session.id);
     const getCachedProduct = nextCache(getMyProduct, ["myProduct"]);
-    const myProducts = await getCachedProduct(session.id);
+    const myProducts = await getMyProduct(session.id);
     return <div className="*:border-b *:border-b-gray-400">
         <div className="py-10">
             <h1 className="font-gothic text-5xl">Welcome <span className="text-orange-500">{user?.username}</span></h1>
