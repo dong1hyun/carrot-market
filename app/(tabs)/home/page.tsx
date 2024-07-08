@@ -41,7 +41,6 @@ export default async function Products() {
   // };
   return (
     <div>
-      <ProductList initialProducts={initialProducts} />
       <>테스트에요</>
       <a
         href="/products/add"
