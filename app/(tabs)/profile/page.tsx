@@ -20,7 +20,6 @@ export default async function Profile() {
         </div>
         <div className="py-10">
             <h1 className="font-gothic text-5xl">내 상품 목록</h1>
-            check
             <ProductList initialProducts={myProducts} />
         </div>
         <UpdateProfile username={user.username} phone={user.phone} avatar={user.avatar} />
