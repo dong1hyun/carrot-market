@@ -36,6 +36,9 @@ export const getMyProduct = async (userId: number) => {
             user: {
                 id: userId
             }
+        },
+        orderBy: {
+            created_at: "desc"
         }
     });
     return product;
