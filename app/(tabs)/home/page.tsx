@@ -13,14 +13,14 @@ export const metadata = {
 // export const revalidate = 5;
 
 export default async function Products() {
-  const initialProducts = await getInitialProducts();
+  const products = await getInitialProducts();
   // const revalidate = async () => {
   //   "use server";
   //   revalidatePath("/home");
   // };
   return (
     <div>
-      <ProductList initialProducts={initialProducts} />
+      <ProductList initialProducts={products} />
       <a
         href="/products/add"
         className="bg-orange-500 flex items-center justify-center rounded-full size-16 fixed bottom-24 right-8 text-white transition-colors hover:bg-orange-400"
