@@ -31,7 +31,7 @@ export async function getUser(userId: number) {
 }
 
 export const getMyProduct = async (userId: number) => {
-    const product = await db.product.findMany({
+    const products = await db.product.findMany({
         where: {
             user: {
                 id: userId
@@ -41,7 +41,7 @@ export const getMyProduct = async (userId: number) => {
             created_at: "desc"
         }
     });
-    return product;
+    return products;
 };
 
 const userInfoSchema = z.object({
