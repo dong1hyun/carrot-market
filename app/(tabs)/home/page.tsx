@@ -2,6 +2,7 @@ import ProductList from "@/app/components/product-list";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import { unstable_cache as nextCache, revalidatePath } from "next/cache";
 import { getInitialProducts } from "./actions";
+import { getMyProduct } from "../profile/action";
 
 // const getCachedProducts = nextCache(getInitialProducts, ["home-products"], {tags: ["home-products"]});
 
@@ -13,7 +14,7 @@ export const metadata = {
 // export const revalidate = 5;
 
 export default async function Products() {
-  const products = await getInitialProducts();
+  const products = await getMyProduct(3);
   return (
     <div>
       <ProductList initialProducts={products} />
