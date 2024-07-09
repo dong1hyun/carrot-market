@@ -5,12 +5,10 @@ import { Prisma } from "@prisma/client";
 
 export const getInitialProducts = async () => {
     const products = await db.product.findMany({
-        select: {
-            title: true,
-            price: true,
-            created_at: true,
-            photo: true,
-            id: true,
+        where: {
+            user: {
+                id: 3
+            }
         },
         orderBy: {
             created_at: "desc",
