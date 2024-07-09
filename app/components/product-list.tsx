@@ -26,7 +26,7 @@ export default function ProductList({ initialProducts }: ProductList) {
                     const newProducts = await getMoreProducts(page + 1);
                     if (newProducts.length !== 0) {
                         setPage(prev => prev + 1); // 받은 상품 배열이 0개가 아닐 때만 다음 페이지로 넘어감 
-                        setProducts(cur => [...cur, ...newProducts]);
+                        // setProducts(cur => [...cur, ...newProducts]);
                     } else {
                         setIsLastPage(true);
                     }

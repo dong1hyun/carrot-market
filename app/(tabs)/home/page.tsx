@@ -9,13 +9,13 @@ import { unstable_cache as nextCache, revalidatePath } from "next/cache";
 const getCachedProducts = nextCache(getInitialProducts, ["home-products"], {tags: ["home-products"]});
 async function getInitialProducts() {
   const products = await db.product.findMany({
-    select: {
-      title: true,
-      price: true,
-      created_at: true,
-      photo: true,
-      id: true,
-    },
+    // select: {
+    //   title: true,
+    //   price: true,
+    //   created_at: true,
+    //   photo: true,
+    //   id: true,
+    // },
     // orderBy: {
     //   created_at: "desc",
     // },
